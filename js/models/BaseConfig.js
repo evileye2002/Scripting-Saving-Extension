@@ -39,11 +39,13 @@ export class BaseConfig {
 
     this.fields.forEach((field) => {
       if (field.is_parent && field.children.length > 0) {
+        let tempFieldChildren = [...field.children];
         this.$body.find(field.selector).each((_, element) => {
           const elmText = $(element).text().trim().toLowerCase();
-          field.children.forEach((childField) => {
+          tempFieldChildren.forEach((childField, index) => {
             if (elmText.includes(childField.conditions)) {
               data[childField.name] = childField.get_value($(element));
+              tempFieldChildren.splice(index, 1);
             }
           });
         });
