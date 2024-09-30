@@ -1,9 +1,5 @@
 import { render_field } from "../render.js";
-import {
-  capitalizeWords,
-  extractTextFromElements,
-  removeVietnameseTones,
-} from "../utils.js";
+import { capitalizeWords, extractTextFromElements } from "../utils.js";
 
 const BASE_AUTHOR_CLASSES = `btn btn-sm me-1 py-0 btn-author `;
 
@@ -47,19 +43,13 @@ export class ConfigField {
       tempValue = extractTextFromElements($html.find(this.selector));
     else tempValue = $html.find(this.selector).text().trim();
 
-    if (this.is_key) {
-      let code = tempValue.toLowerCase().replace(/\s/g, "");
-      code = removeVietnameseTones(code);
-      data["code"] = code;
-    }
-
     if (this.attr) {
       tempValue = $html.find(this.selector).attr(this.attr);
     }
 
     if (this.regex) {
-      const regex = new RegExp(field.regex);
-      tempValue = (tempValue.match(regex) || [])[1];
+      const regex = new RegExp(this.regex);
+      tempValue = (tempValue.match(regex) || [])[1] || "";
     }
 
     this.value = tempValue;

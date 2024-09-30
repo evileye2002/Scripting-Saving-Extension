@@ -1,4 +1,5 @@
 import { render_field } from "../render.js";
+import { removeVietnameseTones } from "../utils.js";
 import { ConfigField } from "./ConfigFields.js";
 
 /**
@@ -47,6 +48,14 @@ export class BaseConfig {
           });
         });
       } else {
+        if (field.is_key) {
+          let code = field
+            .get_value(this.$body)
+            .toLowerCase()
+            .replace(/\s/g, "");
+          code = removeVietnameseTones(code);
+          data["code"] = code;
+        }
         data[field.name] = field.get_value(this.$body);
       }
     });
