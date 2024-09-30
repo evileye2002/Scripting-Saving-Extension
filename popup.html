@@ -1,0 +1,223 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="./vendor/css/fontawesome.all.min.css" />
+
+    <!-- jQuery -->
+    <script src="./vendor/js/jquery.min.js"></script>
+
+    <!-- BS5 -->
+    <link rel="stylesheet" href="./vendor/css/bootstrap.min.css" />
+    <script src="./vendor/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom -->
+    <link rel="stylesheet" href="./css/style.css" />
+    <!-- <script src="./js/script.js"></script> -->
+    <script src="./js/popup.js" type="module"></script>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <!-- Top -->
+      <div class="p-3 border-bottom">
+        <div class="row align-items-center">
+          <div class="col-3">
+            <small>
+              <span class="fw-bold">Web</span>
+            </small>
+          </div>
+          <div class="col-6">
+            <small>
+              <span id="web-name" class="fw-bold text-secondary"
+                >[Unsupported]
+              </span>
+            </small>
+          </div>
+
+          <!-- Settings -->
+          <div class="col-3 pe-0">
+            <input
+              id="dialog"
+              class="visually-hidden"
+              type="file"
+              accept=".json"
+            />
+
+            <div class="d-flex justify-content-end">
+              <div
+                id="web-name"
+                class="btn btn-outline-danger border-0"
+                data-bs-toggle="dropdown"
+              >
+                <i class="fa-solid fa-gear"></i>
+              </div>
+              <ul class="dropdown-menu">
+                <li>
+                  <div id="list" class="dropdown-item" style="cursor: pointer">
+                    <small>Open list</small>
+                  </div>
+                </li>
+
+                <li>
+                  <label
+                    class="form-check-label dropdown-item d-flex justify-content-between"
+                    for="truncate"
+                    style="cursor: pointer"
+                  >
+                    <small>Truncate</small>
+                    <input
+                      id="truncate"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                  </label>
+                </li>
+
+                <li>
+                  <label
+                    class="form-check-label dropdown-item d-flex justify-content-between"
+                    for="truncate"
+                    style="cursor: pointer"
+                  >
+                    <small>Overide all</small>
+                    <input
+                      id="overide-all"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                  </label>
+                </li>
+
+                <li>
+                  <label
+                    class="form-check-label dropdown-item d-flex justify-content-between"
+                    for="debug"
+                    style="cursor: pointer"
+                  >
+                    <small>Debug</small>
+                    <input
+                      id="debug"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
+                  </label>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+
+                <!-- Export & Import -->
+                <li>
+                  <a id="export" class="dropdown-item" href="#">
+                    <small>Export to json</small>
+                  </a>
+                </li>
+                <li>
+                  <a id="import" class="dropdown-item" href="#">
+                    <small>Import</small>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="main" class="visually-hidden">
+        <!-- Status -->
+        <div class="p-3">
+          <div class="row">
+            <div class="col-3">
+              <small>
+                <span class="fw-bold">Status</span>
+              </small>
+            </div>
+            <div class="col-9">
+              <small>
+                <span id="status" class="fw-bold text-secondary">[Unread]</span>
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chapter/Ep -->
+        <div id="chapter-div" class="p-3 pt-0 visually-hidden">
+          <div class="row align-items-center">
+            <div class="col-3">
+              <small>
+                <span id="chapter_label" class="fw-bold">Chapter</span>
+              </small>
+            </div>
+            <div class="col-9">
+              <div class="input-group input-group-sm">
+                <input
+                  id="chapter"
+                  type="number"
+                  class="form-control fw-bold text-secondary"
+                  min="0"
+                  value="0"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Point -->
+        <div id="point-div" class="p-3 pt-0 border-bottom visually-hidden">
+          <div class="row align-items-center">
+            <div class="col-3">
+              <small>
+                <span class="fw-bold">Point</span>
+              </small>
+            </div>
+            <div class="col-9">
+              <select
+                id="point"
+                class="form-select form-select-sm fw-bold text-secondary"
+              >
+                <option selected class="fw-bold" value="0">[00]</option>
+                <option class="fw-bold" value="1">[01]</option>
+                <option class="fw-bold" value="2">[02]</option>
+                <option class="fw-bold" value="3">[03]</option>
+                <option class="fw-bold" value="4">[04]</option>
+                <option class="fw-bold" value="5">[05]</option>
+                <option class="fw-bold" value="6">[06]</option>
+                <option class="fw-bold" value="7">[07]</option>
+                <option class="fw-bold" value="8">[08]</option>
+                <option class="fw-bold" value="9">[09]</option>
+                <option class="fw-bold" value="10">[10]</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Information -->
+        <div id="info" class="p-3 border-bottom"></div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between p-3 border-bottom">
+          <div id="btn-add" class="btn btn-sm btn-outline-danger fw-bold">
+            <i class="fa-solid fa-heart"></i>
+            Save
+          </div>
+          <div
+            id="btn-update"
+            class="btn btn-sm btn-outline-success fw-bold disabled"
+          >
+            <i class="fa-solid fa-pen"></i>
+            Update
+          </div>
+          <div
+            id="btn-delete"
+            class="btn btn-sm btn-outline-dark fw-bold disabled"
+          >
+            <i class="fa-solid fa-trash"></i>
+            Delete
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

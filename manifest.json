@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "version": "1.0.1",
+  "name": "Scripting & Saving",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["activeTab", "scripting", "tabs", "storage"],
+  "icons": {
+    "128": "imgs/icon128.png"
+  }
+}
