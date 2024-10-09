@@ -33,7 +33,7 @@ export class ConfigField {
     this.is_key = options?.is_key;
     this.is_parent = options?.is_parent;
     this.children = options?.children;
-    this.conditions = options?.conditions;
+    this.conditions = options?.conditions?.toLowerCase();
   }
 
   get_value($html) {
@@ -49,7 +49,19 @@ export class ConfigField {
 
     if (this.regex) {
       const regex = new RegExp(this.regex);
-      tempValue = (tempValue.match(regex) || [])[1] || "";
+      if (this.is_multiple) {
+        let temp = [];
+        tempValue.forEach((value) => {
+          let match = value.match(regex);
+          let new_value = match ? match[1].trim() : "";
+          console.log(new_value);
+          if (new_value) temp.push(new_value);
+        });
+        tempValue = temp;
+      } else {
+        let match = tempValue.match(regex);
+        tempValue = match ? match[1].trim() : "";
+      }
     }
 
     this.value = tempValue;
@@ -70,7 +82,9 @@ export class ConfigField {
         html += render_field(authors, capitalizeWords(this.name));
       } else {
         html += render_field(
-          scrapeData[this.name].join(", "),
+          scrapeData[this.name]
+            ?.map((item) => capitalizeWords(item))
+            .join(", "),
           capitalizeWords(this.name)
         );
       }

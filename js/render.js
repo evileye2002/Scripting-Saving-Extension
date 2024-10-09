@@ -1,4 +1,4 @@
-export function render_field(content, name, title = false) {
+export function render_field(content, name, title = true) {
   return `
       <div class="row mb-2">
         <div class="col-3 fw-bold"><small>${name}</small></div>

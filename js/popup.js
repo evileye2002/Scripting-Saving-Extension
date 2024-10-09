@@ -1,4 +1,6 @@
 import BlogTruyen from "./ScrapeFunctions/BlogTruyen.js";
+import CuuTruyen from "./ScrapeFunctions/CuuTruyen.js";
+import MangaDex from "./ScrapeFunctions/MangaDex.js";
 import Manhuaus from "./ScrapeFunctions/Manhuaus.js";
 import Nettrom from "./ScrapeFunctions/Nettrom.js";
 import OtakuSan from "./ScrapeFunctions/Otakusan.js";
@@ -18,6 +20,8 @@ const configs = [
   new BlogTruyen(),
   new Manhuaus(),
   new Pixiv(),
+  new MangaDex(),
+  new CuuTruyen(),
 ];
 
 const global = {
@@ -62,9 +66,14 @@ async function start() {
     localData = global.localData;
   }
 
-  let is_store_best_author = currentConfig.fields.some(
-    (field) => field.is_store_best_author === true
-  );
+  let is_store_best_author = currentConfig.fields.some((field) => {
+    if (field.children?.length > 0) {
+      return field.children.some(
+        (child) => child.is_store_best_author === true
+      );
+    }
+    return field.is_store_best_author === true;
+  });
 
   if (is_store_best_author) {
     bestAuthors = await getStorageData([`${currentConfig.id}_best_authors`]);

@@ -6,7 +6,7 @@ class Nettrom extends BaseConfig {
     super(
       "_nettrom",
       "Nettrom",
-      ["nettruyenww.com", "nettruyenviet.com"],
+      ["nettruyenww.com", "nettruyenviet.com", "nettruyenupp.com"],
       [
         new ConfigField("Title", "h1.title-detail", {
           is_key: true,
