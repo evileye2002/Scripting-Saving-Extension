@@ -32,32 +32,6 @@
             <i class="fa-solid fa-caret-right"></i>
             All Configs
           </div>
-          <div class="d-flex">
-            <div class="">
-              <input
-                type="text"
-                class="form-control form-control-sm"
-                id="config-search"
-                placeholder="Search"
-              />
-            </div>
-            <div
-              id="filter-config-btn"
-              class="btn text-danger d-flex align-items-center border-0"
-              data-bs-toggle="modal"
-              data-bs-target="#filter-config-modal"
-            >
-              <i class="fa-solid fa-filter"></i>
-            </div>
-            <div
-              id="add-config-btn"
-              class="btn text-danger d-flex align-items-center border-0"
-              data-bs-toggle="modal"
-              data-bs-target="#add-config-modal"
-            >
-              <i class="fa-solid fa-plus fa-lg"></i>
-            </div>
-          </div>
         </div>
         <table
           id="config-table"
@@ -67,8 +41,30 @@
             <tr>
               <th>ID</th>
               <th>Name</th>
-              <th>Url Regexs</th>
-              <th></th>
+              <th>Urls</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="border rounded-3 p-3 mb-3">
+        <div class="d-flex mb-2">
+          <div class="fw-bold">
+            <i class="fa-solid fa-caret-right"></i>
+            All Fields
+          </div>
+        </div>
+        <table id="field-table" class="table table-borderless table-hover mb-0">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Selector</th>
+              <th>Attr</th>
+              <th>Regex</th>
+              <th>Conditions</th>
+              <th>Options</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -78,15 +74,42 @@
       <div id="config-detail" class="">
         <div class="border rounded-3 p-3 mb-3">
           <div class="d-flex mb-2">
-            <div class="fw-bold">
+            <div class="fw-bold me-auto">
               <i class="fa-solid fa-caret-right"></i>
               All Data
             </div>
-            <div id="add-data-btn" class="btn btn-sm btn-outline-dark ms-auto">
-              <i class="fa-solid fa-plus"></i>
+            <div class="d-flex">
+              <div class="">
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  id="data-search"
+                  placeholder="Search"
+                />
+              </div>
+              <div
+                id="search-data-btn"
+                class="btn text-danger d-flex align-items-center border-0"
+              >
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+              <div
+                id="filter-data-btn"
+                class="btn text-danger d-flex align-items-center border-0"
+                data-bs-toggle="modal"
+                data-bs-target="#filter-data-modal"
+              >
+                <i class="fa-solid fa-filter"></i>
+              </div>
             </div>
           </div>
-          <table class="mb-0"></table>
+          <table
+            id="data-table"
+            class="table table-borderless table-hover mb-0"
+          >
+            <thead></thead>
+            <tbody></tbody>
+          </table>
         </div>
 
         <div class="border rounded-3 p-3 mb-3">
@@ -99,19 +122,6 @@
               id="add-author-btn"
               class="btn btn-sm btn-outline-dark ms-auto"
             >
-              <i class="fa-solid fa-plus"></i>
-            </div>
-          </div>
-          <table class="mb-0"></table>
-        </div>
-
-        <div class="border rounded-3 p-3 mb-3">
-          <div class="d-flex mb-2">
-            <div class="fw-bold">
-              <i class="fa-solid fa-caret-right"></i>
-              All Fields
-            </div>
-            <div id="add-field-btn" class="btn btn-sm btn-outline-dark ms-auto">
               <i class="fa-solid fa-plus"></i>
             </div>
           </div>
@@ -190,7 +200,7 @@
       </div>
     </div>
 
-    <div id="filter-config-modal" class="modal fade" tabindex="-1">
+    <div id="filter-data-modal" class="modal fade" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">

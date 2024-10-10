@@ -44,6 +44,11 @@ async function start() {
   let settings = await getStorageData(["settings"], global.settings);
   settings = { ...global.settings, ...settings };
 
+  global.settings = settings;
+  if (settings["debug"]) $("#debug").prop("checked", true);
+  if (settings["overideAll"]) $("#overide-all").prop("checked", true);
+  if (settings["truncate"]) $("#truncate").prop("checked", true);
+
   // Find current config //
   const currentConfig = configs.find((config) => {
     return config.urls.some((url) => {
@@ -89,7 +94,6 @@ async function start() {
   currentConfig.render();
 
   global.$body = $body;
-  global.settings = settings;
   global.currentUrl = currentUrl;
   global.currentConfig = currentConfig;
   global.localData = localData;
@@ -117,12 +121,8 @@ async function start() {
   if (currentConfig.is_pointing) $("#point-div").toggleClass("visually-hidden");
   if (currentConfig.is_chaptering)
     $("#chapter-div").toggleClass("visually-hidden");
-  if (settings["debug"]) $("#debug").prop("checked", true);
-  if (settings["overideAll"]) $("#overide-all").prop("checked", true);
-  if (settings["truncate"]) {
+  if (settings["truncate"])
     $("[field-value-label]").toggleClass("text-truncate");
-    $("#truncate").prop("checked", true);
-  }
 
   // Log Data
   if (settings["debug"]) {
@@ -318,6 +318,10 @@ $("#btn-update").click(function (event) {
 
   if (global.settings["debug"])
     console.log(`Update '${oldData.code}' from '${global.currentConfig.id}'.`);
+});
+
+$("#open-list").click(function (event) {
+  chrome.tabs.create({ url: "list.html" });
 });
 
 $(document).on("click", ".btn-author", function () {

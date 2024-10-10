@@ -111,4 +111,32 @@ export class ConfigField {
 
     return authors_html;
   }
+
+  reder_data_row(data, truncate = false) {
+    let html = "";
+
+    if (this.is_multiple) {
+      const value = data[this.name]
+        ?.map((item) => capitalizeWords(item))
+        .join(", ");
+      html += `
+        <td 
+          ${
+            truncate
+              ? `class="text-truncate" style="max-width: 200px;" title="${value}"`
+              : ""
+          }>
+          ${value}
+        </td>
+      `;
+    } else
+      html += `
+        <td 
+          ${this.is_key ? `class="fw-medium"` : ""} >
+          ${this.is_key ? capitalizeWords(data[this.name]) : data[this.name]}
+        </td>
+      `;
+
+    return html;
+  }
 }
