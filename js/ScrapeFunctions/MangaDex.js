@@ -17,20 +17,22 @@ class MangaDex extends BaseConfig {
         new ConfigField("Info", ".flex.gap-6 > div:nth-child(1) > div", {
           is_parent: true,
           children: [
-            new ConfigField("Author", ".flex a", {
-              is_multiple: true,
-              conditions: "Author",
-            }),
-            new ConfigField("Artist", ".flex a", {
-              is_multiple: true,
-              conditions: "Artist",
-            }),
             new ConfigField("Genres", ".flex a", {
               is_multiple: true,
               conditions: "Genres",
             }),
             new ConfigField("Format", ".flex a", {
               conditions: "Format",
+            }),
+
+            new ConfigField("Artist", ".flex a", {
+              is_multiple: true,
+              conditions: "Artist",
+            }),
+            new ConfigField("Author", ".flex a", {
+              is_multiple: true,
+              is_store_best_author: true,
+              conditions: "Author",
             }),
           ],
         }),

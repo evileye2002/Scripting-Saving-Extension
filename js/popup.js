@@ -76,7 +76,10 @@ async function start() {
   });
 
   if (is_store_best_author) {
-    bestAuthors = await getStorageData([`${currentConfig.id}_best_authors`]);
+    bestAuthors = await getStorageData(
+      [`${currentConfig.id}_best_authors`],
+      []
+    );
   }
 
   // Scripting //

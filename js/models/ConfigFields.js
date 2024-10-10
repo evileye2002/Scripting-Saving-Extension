@@ -54,7 +54,6 @@ export class ConfigField {
         tempValue.forEach((value) => {
           let match = value.match(regex);
           let new_value = match ? match[1].trim() : "";
-          console.log(new_value);
           if (new_value) temp.push(new_value);
         });
         tempValue = temp;
@@ -79,7 +78,7 @@ export class ConfigField {
           </div>
         `;
 
-        html += render_field(authors, capitalizeWords(this.name));
+        html += render_field(authors, capitalizeWords(this.name), false);
       } else {
         html += render_field(
           scrapeData[this.name]
