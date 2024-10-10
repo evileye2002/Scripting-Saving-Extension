@@ -130,12 +130,19 @@ export function render_data_row(
 
   if (is_chaptering)
     data_thead += `
-      <th class="text-center">Chapter</th>
+      <th class="text-center">
+        Chapter
+      </th>
     `;
 
   if (is_pointing)
     data_thead += `
-      <th class="text-center">Point</th>
+      <th>
+        <div class="d-flex align-items-center justify-content-center gap-1" style="cursor: pointer">
+          Point
+          <i id="sort-icon" class="fa-solid fa-arrow-down-wide-short"></i>
+        </div>
+      </th>
     `;
 
   data_thead = `

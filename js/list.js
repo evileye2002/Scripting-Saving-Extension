@@ -38,6 +38,8 @@ async function start() {
   let settings = await getStorageData(["settings"], global.settings);
   settings = { ...global.settings, ...settings };
 
+  $("#config-count").text(configs.length);
+
   let configs_tbody = "";
   configs.map((config) => {
     configs_tbody += render_config_row(config);
@@ -72,12 +74,32 @@ function filterData(searchText) {
   }
 }
 
+function render_data() {
+  const { data_thead, data_tbody } = render_data_row(
+    global.config.fields,
+    global.data,
+    global.config.is_pointing,
+    global.config.is_chaptering,
+    global.settings.truncate
+  );
+  $("#data-table thead")
+    .html(data_thead)
+    .attr("data-config-id", global.config.id);
+  $("#data-table tbody")
+    .html(data_tbody)
+    .attr("data-config-id", global.config.id);
+}
+
 //#endregion
 
 //#region Events
 
 $("#config-table tbody").on("click", "tr", async function () {
   const id = $(this).data("config-id");
+
+  $("#config-table tbody tr").removeClass("table-active");
+  $(this).addClass("table-active");
+
   const selected_config = configs.find((config) => {
     return config.id === id;
   });
@@ -86,6 +108,27 @@ $("#config-table tbody").on("click", "tr", async function () {
     [`${selected_config.id}_best_authors`],
     []
   );
+
+  $("#field-count").text(selected_config.fields.length);
+  $("#data-count").text(selected_config_data.length);
+
+  global.config = selected_config;
+  global.data = selected_config_data;
+  global.best_authors = selected_config_best_authors;
+
+  // Sort Data
+  selected_config_data.sort(function (a, b) {
+    if (a.point === undefined) return 1; // Move a (undefined point) after b
+    if (b.point === undefined) return -1; // Move b (undefined point) after a
+
+    const pointA = parseFloat(a.point);
+    const pointB = parseFloat(b.point);
+
+    if (pointA > pointB) return -1;
+    if (pointA < pointB) return 1;
+
+    return 0; // If pointA === pointB, leave them unchanged
+  });
 
   // Log Data
   if (global.settings["debug"]) {
@@ -106,15 +149,7 @@ $("#config-table tbody").on("click", "tr", async function () {
   $("#field-table tbody").html(fields_tbody).attr("data-config-id", id);
 
   // Data
-  const { data_thead, data_tbody } = render_data_row(
-    selected_config.fields,
-    selected_config_data,
-    selected_config.is_pointing,
-    selected_config.is_chaptering,
-    global.settings.truncate
-  );
-  $("#data-table thead").html(data_thead).attr("data-config-id", id);
-  $("#data-table tbody").html(data_tbody).attr("data-config-id", id);
+  render_data();
 
   // Best Authors
 });
