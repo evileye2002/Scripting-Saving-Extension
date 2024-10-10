@@ -60,17 +60,81 @@ start();
 
 //#region Methods
 
-function filterData(searchText) {
+/**
+ * Filters table rows based on a specified search criteria.
+ *
+ * The function accepts a filter string that can specify a particular column to search in
+ * using the format "td:index=searchTerms", where "index" is the 1-based index of the
+ * target column and "searchTerms" can include multiple terms separated by commas
+ * for "AND" conditions and pipes for "OR" conditions.
+ * If the input does not match this format, the entire table is searched in the default
+ * behavior.
+ *
+ * @param {string} filterString - The filter criteria in the format
+ *                                 "td:index=term1,term2|term3" where "index"
+ *                                 is the column number, and terms are the search strings.
+ *
+ * @example
+ * // Filters the second column for rows containing both "fantasy" and "romance"
+ * // or just "comedy".
+ * filterData("td:2=fantasy,romance|comedy");
+ *
+ * @example
+ * // If the input doesn't match the "td:" format, the function searches
+ * // across all columns for the term "comedy".
+ * filterData("comedy");
+ * // both "fantasy" and "romance" or just "comedy".
+ * filterData("fantasy,romance|comedy");
+ */
+function filterData(filterString) {
+  // Extract column index and search terms from the input string
+  const match = filterString.match(/td:(\d+)=(.+)/);
+  let columnIndex = -1;
+  let searchText = "";
+
+  if (match) {
+    columnIndex = parseInt(match[1]) - 1; // Convert to zero-based index
+    searchText = match[2].trim();
+  } else searchText = filterString;
+
+  // Split by "|" first to separate OR groups
+  const orGroups = searchText
+    .split("|")
+    .map((group) => group.trim().toLowerCase());
+
   const foundRow = $("#data-table tbody tr").filter(function () {
-    return $(this).find("td").text().trim().toLowerCase().includes(searchText);
+    // Get the text content of the row (td elements) and convert to lowercase
+    const row = $(this).find("td");
+    let text_content = row.text().trim().toLowerCase();
+
+    if (match) {
+      text_content = row.eq(columnIndex).text().trim().toLowerCase();
+    }
+
+    // "OR" filter: check if any of the OR groups matches
+    return orGroups.some((group) => {
+      // Split each group by "," for "AND" conditions
+      const andTerms = group
+        .split(",")
+        .map((term) => term.trim().toLowerCase());
+
+      // "AND" filter: all terms in the group must match
+      return andTerms.every((term) => text_content.includes(term));
+    });
   });
 
   if (foundRow.length > 0) {
-    $("#data-table tbody tr").not(foundRow).hide(); // Hide all rows except the found row
-    foundRow.show(); // Show the found row
+    $("#data-count").text(foundRow.length);
+    $("#data-table tbody tr").not(foundRow).hide(); // Hide all rows except the found row(s)
+    foundRow.show(); // Show the found row(s)
   } else {
     $("#data-table tbody tr").show(); // Show all rows if no match is found
-    console.log("No matching row found.");
+    console.log(
+      "No matching row found",
+      `"${searchText}" ${
+        columnIndex >= 0 ? `at column ${columnIndex + 1}` : ""
+      }`
+    );
   }
 }
 
@@ -154,11 +218,12 @@ $("#config-table tbody").on("click", "tr", async function () {
   // Best Authors
 });
 
-$("#data-search").on("change", function (event) {
-  const searchText = $(this).val().trim().toLowerCase();
-  filterData(searchText);
+$("#data-search").on("keydown", function (event) {
+  if (event.key === "Enter") {
+    const searchText = $(this).val().trim().toLowerCase();
+    filterData(searchText);
+  }
 });
-
 $("#search-data-btn").click(function (event) {
   const searchText = $("#data-search").val().trim().toLowerCase();
   filterData(searchText);
